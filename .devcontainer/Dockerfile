@@ -32,7 +32,7 @@ RUN apk update && apk add --no-cache \
       /home/user/.hushlogin \
 \
     && curl https://sh.rustup.rs -sSf \
-    | sh -s -- -y --default-toolchain $RUST_VERSION
+    | sh -s -- -y --default-toolchain $RUST_VERSION \
 \
     && rustup component add rust-src \
       clippy \
@@ -45,8 +45,35 @@ RUN apk update && apk add --no-cache \
       rust-std \
       rustc
 
+# Get the repo name without the owner
+ENV REPONAME=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
+
 # Add Andy's dotfiles
-RUN git clone 
+RUN git clone https://github.com/aaweaver-actuary/dotfiles.git \
+    && mv ./dotfiles/.bashrc $HOME/.bashrc \ 
+    && mv ./dotfiles/.profile $HOME/.profile \ 
+    && mv ./dotfiles/.hushlogin $HOME/.hushlogin \
+    && mv ./dotfiles/.prettierrc $HOME/.prettierrc
+
+# Link to the dotfiles and binaries
+RUN ln -s /usr/local/cargo/bin/rustc /bin/rustc \
+    && ln -s /usr/local/cargo/bin/cargo /bin/cargo \
+    && ln -s /usr/local/cargo/bin/rustup /bin/rustup \
+    && ln -s /usr/local/cargo/bin/rustdoc /bin/rustdoc \
+    && ln -s /usr/local/cargo/bin/rustfmt /bin/rustfmt \
+    && ln -s /usr/local/cargo/bin/rust-analyzer /bin/rust-analyzer \
+    && ln -s /usr/local/cargo/bin/rls /bin/rls \
+    && ln -s /usr/local/cargo/bin/cargo-clippy /bin/cargo-clippy \
+    && ln -s /usr/local/cargo/bin/cargo-fmt /bin/cargo-fmt \
+    && ln -s /usr/local/cargo/bin/cargo-miri /bin/cargo-miri \
+    && ln -s /usr/staging/dotfiles/.bashrc /home/user/.bashrc \
+    && ln -s /usr/staging/dotfiles/.bashrc /workspaces/${REPONAME}/.bashrc \
+    && ln -s /usr/staging/dotfiles/.profile /home/user/.profile \
+    && ln -s /usr/staging/dotfiles/.profile /workspaces/${REPONAME}/.profile \
+    && ln -s /usr/staging/dotfiles/.hushlogin /home/user/.hushlogin \
+    && ln -s /usr/staging/dotfiles/.hushlogin /workspaces/${REPONAME}/.hushlogin \
+    && ln -s /usr/staging/dotfiles/.prettierrc /home/user/.prettierrc \
+    && ln -s /usr/staging/dotfiles/.prettierrc /workspaces/${REPONAME}/.prettierrc
 
 # Remove build dependencies and clean up 
 RUN apk del curl \

@@ -10,11 +10,14 @@
         "GitHub.copilot",
         "GitHub.copilot-chat",
         "swellaby.rust-pack",
-        "dustypomerleau.rust-syntax"
+        "dustypomerleau.rust-syntax",
+        "esbenp.prettier-vscode",
+        "vscode-icons-team.vscode-icons"
       ]
     },
     "settings": {
       "terminal.integrated.shell.linux": "/bin/bash",
+      "workbench.panel.defaultLocation": "bottom",
       "workbench.colorTheme": "GitHub Dark High Contrast"
     }
   }
