@@ -3,7 +3,6 @@ FROM alpine:3.19
 ENV RUSTUP_HOME=/usr/local/rustup \
     CARGO_HOME=/usr/local/cargo \
     PATH=/usr/local/cargo/bin:$PATH \
-    HOME=/home/user \
     NODE_TLS_REJECT_UNAUTHORIZED=0 \
     RUST_BACKTRACE=1 \
     RUST_LOG=info \
@@ -96,5 +95,10 @@ USER user
 
 # Set the default working directory
 WORKDIR $HOME
+
+# Copy over the env test folder
+COPY .test .test
+COPY Makefile Makefile
+
 
 CMD ["/bin/bash"]

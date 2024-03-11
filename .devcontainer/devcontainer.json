@@ -12,7 +12,8 @@
         "swellaby.rust-pack",
         "dustypomerleau.rust-syntax",
         "esbenp.prettier-vscode",
-        "vscode-icons-team.vscode-icons"
+        "vscode-icons-team.vscode-icons",
+        "usernamehw.errorlens"
       ]
     },
     "settings": {
