@@ -1,4 +1,2 @@
 testenv:
-	@echo "Testing environment"
-	cargo build
-	cargo run
+	. testenv.sh

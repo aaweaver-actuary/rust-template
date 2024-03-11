@@ -13,6 +13,7 @@ ENV RUSTUP_HOME=/usr/local/rustup \
 
 WORKDIR /usr/staging
 
+# Install updates
 RUN apk update && apk add --no-cache \
     build-base \
     curl \
@@ -45,9 +46,6 @@ RUN apk update && apk add --no-cache \
       rust-std \
       rustc
 
-# Get the repo name without the owner
-ENV REPONAME=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
-
 # Add Andy's dotfiles
 RUN git clone https://github.com/aaweaver-actuary/dotfiles.git \
     && mv ./dotfiles/.bashrc $HOME/.bashrc \ 
@@ -65,15 +63,7 @@ RUN ln -s /usr/local/cargo/bin/rustc /bin/rustc \
     && ln -s /usr/local/cargo/bin/rls /bin/rls \
     && ln -s /usr/local/cargo/bin/cargo-clippy /bin/cargo-clippy \
     && ln -s /usr/local/cargo/bin/cargo-fmt /bin/cargo-fmt \
-    && ln -s /usr/local/cargo/bin/cargo-miri /bin/cargo-miri \
-    && ln -s /usr/staging/dotfiles/.bashrc /home/user/.bashrc \
-    && ln -s /usr/staging/dotfiles/.bashrc /workspaces/${REPONAME}/.bashrc \
-    && ln -s /usr/staging/dotfiles/.profile /home/user/.profile \
-    && ln -s /usr/staging/dotfiles/.profile /workspaces/${REPONAME}/.profile \
-    && ln -s /usr/staging/dotfiles/.hushlogin /home/user/.hushlogin \
-    && ln -s /usr/staging/dotfiles/.hushlogin /workspaces/${REPONAME}/.hushlogin \
-    && ln -s /usr/staging/dotfiles/.prettierrc /home/user/.prettierrc \
-    && ln -s /usr/staging/dotfiles/.prettierrc /workspaces/${REPONAME}/.prettierrc
+    && ln -s /usr/local/cargo/bin/cargo-miri /bin/cargo-miri 
 
 # Remove build dependencies and clean up 
 RUN apk del curl \
