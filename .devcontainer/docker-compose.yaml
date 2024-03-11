@@ -1,0 +1,12 @@
+version: 1.0
+services:
+  devcontainer:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspace:cached
+    command: /bin/bash
+    ports:
+      - "8080:8080"
+
