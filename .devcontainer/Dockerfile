@@ -3,12 +3,13 @@ FROM alpine:3.19
 ENV RUSTUP_HOME=/usr/local/rustup \
     CARGO_HOME=/usr/local/cargo \
     PATH=/usr/local/cargo/bin:$PATH \
-    RUST_VERSION=1.76.0 \
     HOME=/home/user \
     NODE_TLS_REJECT_UNAUTHORIZED=0 \
     RUST_BACKTRACE=1 \
     RUST_LOG=info \
-    USER=user
+    USER=user \
+    RUST_VERSION=1.76.0 \ 
+    DOTFILES_REPO=aaweaver-actuary/dotfiles
 
 WORKDIR /usr/staging
 
@@ -31,7 +32,7 @@ RUN apk update && apk add --no-cache \
       /home/user/.hushlogin \
 \
     && curl https://sh.rustup.rs -sSf \
-    | sh -s -- -y --default-toolchain $RUST_VERSION \
+    | sh -s -- -y --default-toolchain $RUST_VERSION
 \
     && rustup component add rust-src \
       clippy \
@@ -42,9 +43,13 @@ RUN apk update && apk add --no-cache \
       rls \
       rust-docs \
       rust-std \
-      rustc \
-\
-    && apk del curl \
+      rustc
+
+# Add Andy's dotfiles
+RUN git clone 
+
+# Remove build dependencies and clean up 
+RUN apk del curl \
     && rm -rf /var/cache/apk/* \
     && rm -rf /usr/staging
 
