@@ -1,12 +1,10 @@
-version: 1.0
+version: '3'
 services:
-  devcontainer:
-    build: 
+  development:
+    build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: rust.Dockerfile
     volumes:
-      - ..:/workspace:cached
-    command: /bin/bash
-    ports:
-      - "8080:8080"
-
+      - ..:/app
+    working_dir: /app
+    command: "tail -f /dev/null"
